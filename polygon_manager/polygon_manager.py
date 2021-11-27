@@ -6,30 +6,18 @@ import pickle
 from polygon_manager.pickle_handler import load_pickle, save_pickle
 class PolygonManager:
     '''
-    class to capture points for a polygon
+    class to manage the points for a polygon
     '''
     def __init__(self,  camera_no=None, vid_path=None, windowname="Capture Polygon Points in clock or anti-clock wise", polygons_file_name="polygons_config.pkl"):
         self.windowname = windowname
-        # self.camera_no = camera_no
-        # self.vid_path = vid_path
-        # if camera_no and vid_path:
-        #     self.img = self.get_first_frame(vid_path)
-        #     self.img1 = self.img.copy()
-        #     cv2.namedWindow(windowname, cv2.WINDOW_GUI_NORMAL)
-
         self.points = []
         self.polygons_file_name = polygons_file_name
         # if file does not exist, create one with empty dict
         if not os.path.exists(self.polygons_file_name):
             save_pickle(self.polygons_file_name,{})
 
-        # load the existing dict file
-        # self.polygons_dict = load_pickle(self.polygons_file_name)
-
 
     def create_new_polygon(self, camera_no, vid_path):
-        # self.camera_no = camera_no
-        # self.vid_path = vid_path
         if camera_no and vid_path:
             self.img = self.get_first_frame(vid_path)
             self.img1 = self.img.copy()
@@ -39,9 +27,6 @@ class PolygonManager:
         points, event  = self.draw_polygon_points(camera_no, vid_path)
         if event == 32: # SPACE PRESSED
             self.save_polygon(camera_no, vid_path, self.img1, points)
-
-
-
 
 
     def get_first_frame(self, videofile):
@@ -54,7 +39,7 @@ class PolygonManager:
         return None
 
 
-    def click_event(self, event, x, y, flag, params):
+    def click_event(self, event, x, y, flags, params):
         font = cv2.FONT_HERSHEY_SIMPLEX
         if event == cv2.EVENT_LBUTTONDOWN:
             self.points.append([x, y])
@@ -68,9 +53,9 @@ class PolygonManager:
                 x = point[0]
                 y = point[1]
                 cv2.putText(drawn_frame, "Press Space to save...", (10, 20), font,
-                            1, (255, 0, 0), 2)
-                cv2.putText(drawn_frame, "Press any other key to cancel...", (10, 20), font,
-                            1, (255, 0, 0), 2)
+                            0.5, (255, 0, 0), 2)
+                cv2.putText(drawn_frame, "Press any other key to cancel...", (10, 40), font,
+                            0.5, (255, 0, 0), 2)
                 cv2.putText(drawn_frame, str(x) + ',' +
                             str(y), (x, y), font,
                             1, (255, 0, 0), 2)
