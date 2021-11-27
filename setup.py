@@ -5,7 +5,7 @@ setup(
   version = '0.1.1',
   license='MIT',
   description = 'It helps in drawing polygon on video frame and save it in pkl file. You can create,edit,view the polygon dictionary',
-  author = 'Memona S',
+  author = 'MemonaS',
   author_email = 'memonasultan54@gmail.com',
   url = 'https://github.com/memona008/Polygon_Manager',
   download_url = 'https://github.com/memona008/Polygon_Manager/archive/refs/tags/v_011.tar.gz',
