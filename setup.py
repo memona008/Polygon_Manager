@@ -8,7 +8,7 @@ setup(
   author = 'MemonaS',
   author_email = 'memonasultan54@gmail.com',
   url = 'https://github.com/memona008/Polygon_Manager',
-  download_url = 'https://github.com/memona008/Polygon_Manager/archive/refs/tags/v_011.tar.gz',
+  download_url = 'https://github.com/memona008/Polygon_Manager/archive/refs/tags/v0.1.1.tar.gz',
   keywords = ['polygon', 'video', 'draw polygon', 'box', 'parallelogram', 'image', 'manager', 'capture','points'],
   install_requires=[
           'numpy',
