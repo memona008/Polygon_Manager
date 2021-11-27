@@ -8,7 +8,7 @@ class PolygonManager:
     '''
     class to manage the points for a polygon
     '''
-    def __init__(self,  camera_no=None, vid_path=None, windowname="Capture Polygon Points in clock or anti-clock wise", polygons_file_name="polygons_config.pkl"):
+    def __init__(self, windowname="Capture Polygon Points in clock or anti-clock wise", polygons_file_name="polygons_config.pkl"):
         self.windowname = windowname
         self.points = []
         self.polygons_file_name = polygons_file_name
@@ -19,17 +19,17 @@ class PolygonManager:
 
     def create_new_polygon(self, camera_no, vid_path):
         if camera_no and vid_path:
-            self.img = self.get_first_frame(vid_path)
+            self.img = self.__get_first_frame(vid_path)
             self.img1 = self.img.copy()
             cv2.namedWindow(self.windowname, cv2.WINDOW_GUI_NORMAL)
 
         self.polygons_dict = load_pickle(self.polygons_file_name)
-        points, event  = self.draw_polygon_points(camera_no, vid_path)
+        points, event  = self.__draw_polygon_points(camera_no, vid_path)
         if event == 32: # SPACE PRESSED
-            self.save_polygon(camera_no, vid_path, self.img1, points)
+            self.__save_polygon(camera_no, vid_path, self.img1, points)
 
 
-    def get_first_frame(self, videofile):
+    def __get_first_frame(self, videofile):
         vidcap = cv2.VideoCapture(videofile)
         success = False
         while not success:
@@ -39,7 +39,7 @@ class PolygonManager:
         return None
 
 
-    def click_event(self, event, x, y, flags, params):
+    def __click_event(self, event, x, y, flags, params):
         font = cv2.FONT_HERSHEY_SIMPLEX
         if event == cv2.EVENT_LBUTTONDOWN:
             self.points.append([x, y])
@@ -63,19 +63,19 @@ class PolygonManager:
             cv2.imshow(self.windowname, drawn_frame)
 
 
-    def draw_polygon_points(self, camera_no, vid_path):
+    def __draw_polygon_points(self, camera_no, vid_path):
         '''
         returns : A list of points that creates a polygon
         '''
         if not camera_no and not vid_path:
             raise Exception("Please provide video link and camera name/number")
         cv2.imshow(self.windowname, self.img)
-        cv2.setMouseCallback(self.windowname, self.click_event)
+        cv2.setMouseCallback(self.windowname, self.__click_event)
         k = cv2.waitKey(0)
         cv2.destroyAllWindows()
         return self.points, k
 
-    def get_drawn_polygon(self, pic, pts, color=(0, 255, 0)):
+    def __get_drawn_polygon(self, pic, pts, color=(0, 255, 0)):
         if type(pts) is dict:
             pts_arr = pts.values()
         else:
@@ -93,7 +93,7 @@ class PolygonManager:
 
         return image
 
-    def save_polygon(self, key, link, image, polygon):
+    def __save_polygon(self, key, link, image, polygon):
         self.polygons_dict[key] = {
             'polygon':polygon,
             'image': image,
@@ -118,7 +118,7 @@ class PolygonManager:
             image = polygons_dict[f'{camera_no}']['image']
             link = polygons_dict[f'{camera_no}']['vid_link']
             pts  = polygons_dict[f'{camera_no}']['polygon']
-            image = self.get_drawn_polygon(image,pts,(0,0,255))
+            image = self.__get_drawn_polygon(image,pts,(0,0,255))
             cv2.imshow(f"{camera_no}", image)
             cv2.waitKey(0)
         elif not camera_no:
@@ -126,7 +126,7 @@ class PolygonManager:
                 image = polygons_dict[camera_no]['image']
                 link = polygons_dict[camera_no]['vid_link']
                 pts = polygons_dict[camera_no]['polygon']
-                image = self.get_drawn_polygon(image, pts, (0, 0, 255))
+                image = self.__get_drawn_polygon(image, pts, (0, 0, 255))
                 cv2.imshow(f"{camera_no}", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()

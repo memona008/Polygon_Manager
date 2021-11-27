@@ -1,2 +1,1 @@
 from polygon_manager.polygon_manager import PolygonManager
-
