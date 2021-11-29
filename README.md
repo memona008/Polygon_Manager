@@ -63,6 +63,7 @@ pm.view_polygons('10')
 ```
 pm.get_polygon_points('10')
 ```
+For example: [[32, 667], [279, 559], [551, 462], [766, 380], [972, 286], [1191, 204], [1407, 265], [1179, 412], [955, 531], [738, 664], [513, 817], [185, 1007]]
 
    [poly]: <https://github.com/memona008/Polygon_Manager>
 
