@@ -39,6 +39,11 @@ pm = PolygonManager()
 pm.create_new_polygon(camera_no='10', vid_path='/path/to/video/')
 ```
 
+It will open a window with first frame of video where you can add points Clockwise or Anti-Clockwise by clicking on picture. To undo the recent added point; use right click. 
+
+![Polygon Points](https://user-images.githubusercontent.com/43179211/143847530-2734a4f2-a94a-4456-818b-cad84e8d904f.PNG)
+
+
 #### To view all polygons
 ```
 pm.view_polygons()
@@ -48,6 +53,11 @@ pm.view_polygons()
 ```
 pm.view_polygons('10')
 ```
+
+![Drawn_Polygon](https://user-images.githubusercontent.com/43179211/143847634-a0055a49-48fd-491b-bc69-27882ecc726d.PNG)
+
+
+
 
 #### To get polygon points to use it anywhere else 
 ```
