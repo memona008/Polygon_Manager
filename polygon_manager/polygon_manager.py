@@ -1,5 +1,6 @@
+from shapely.geometry import Point
+from shapely.geometry import Polygon
 import os.path
-
 import cv2
 import numpy as np
 import pickle
@@ -132,6 +133,28 @@ class PolygonManager:
                 cv2.destroyAllWindows()
         else:
             raise Exception(f"No polygon is present for camera {camera_no}")
+
+
+
+    def is_point_in_polygon(self, point, polygon_name):
+        polygons_dict = load_pickle(self.polygons_file_name)
+        if polygon_name in polygons_dict.keys():
+            polygon = polygons_dict[f'{polygon_name}']['polygon']
+            _point = Point(point)
+            _polygon = Polygon(polygon)
+            return _polygon.contains(_point)
+        else:
+            raise Exception(f"No polygon is present for camera {polygon_name}")
+
+
+
+
+
+
+
+
+
+
 
 
 
