@@ -1,2 +1,2 @@
-import polygon_manager
+from polygon_manager import PolygonManager
 

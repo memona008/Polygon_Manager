@@ -2,17 +2,18 @@ from distutils.core import setup
 setup(
   name = 'polygon_manager',
   packages = ['polygon_manager'],
-  version = '0.1.1',
+  version = '0.1.2',
   license='MIT',
   description = 'It helps in drawing polygon on video frame and save it in pkl file. You can create,edit,view the polygon dictionary',
   author = 'MemonaS',
   author_email = 'memonasultan54@gmail.com',
   url = 'https://github.com/memona008/Polygon_Manager',
-  download_url = 'https://github.com/memona008/Polygon_Manager/archive/refs/tags/v0.1.1.tar.gz',
+  download_url = 'https://github.com/memona008/Polygon_Manager/archive/refs/tags/v0.1.2.tar.gz',
   keywords = ['polygon', 'video', 'draw polygon', 'box', 'parallelogram', 'image', 'manager', 'capture','points'],
   install_requires=[
           'numpy',
           'opencv-python',
+          'shapely'
       ],
   classifiers=[  # Optional
     # How mature is this project? Common values are
