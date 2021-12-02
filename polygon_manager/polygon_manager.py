@@ -26,6 +26,7 @@ class PolygonManager:
 
         self.polygons_dict = load_pickle(self.polygons_file_name)
         points, event  = self.__draw_polygon_points(camera_no, vid_path)
+        self.points = []
         if event == 32: # SPACE PRESSED
             self.__save_polygon(camera_no, vid_path, self.img1, points)
 
