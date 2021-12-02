@@ -50,16 +50,23 @@ class PolygonManager:
 
         if self.img1 is not None:
             drawn_frame = self.img1.copy()
-            for point in self.points:
-                x = point[0]
-                y = point[1]
+            if len(self.points) >=1:
+                x = self.points[0][0]
+                y = self.points[0][1]
                 cv2.putText(drawn_frame, "Press Space to save...", (10, 20), font,
                             0.5, (255, 0, 0), 2)
                 cv2.putText(drawn_frame, "Press any other key to cancel...", (10, 40), font,
                             0.5, (255, 0, 0), 2)
-                cv2.putText(drawn_frame, str(x) + ',' +
-                            str(y), (x, y), font,
+                cv2.putText(drawn_frame, str(x) + ',' + str(y), (x, y), font,
                             1, (255, 0, 0), 2)
+            if len(self.points) >= 2:
+                for i in range(1,len(self.points)):
+                    x = self.points[i][0]
+                    y = self.points[i][1]
+                    cv2.putText(drawn_frame, str(x) + ',' +
+                                str(y), (x, y), font,
+                                1, (255, 0, 0), 2)
+                    drawn_frame = cv2.line(drawn_frame, self.points[i-1], self.points[i],color=(255, 0, 0),thickness=2)
 
             cv2.imshow(self.windowname, drawn_frame)
 
