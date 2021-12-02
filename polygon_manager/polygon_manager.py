@@ -155,6 +155,16 @@ class PolygonManager:
             raise Exception(f"No polygon is present for camera {polygon_name}")
 
 
+    def delete_polygon(self, polygon_name):
+        polygons_dict = load_pickle(self.polygons_file_name)
+        if polygon_name in polygons_dict.keys():
+            del polygons_dict[polygon_name]
+            save_pickle(self.polygons_file_name,polygons_dict)
+            return False if polygon_name in polygons_dict.keys() else True
+        else:
+            raise Exception(f"No polygon with name {polygon_name} exists in file")
+
+
 
 
 
