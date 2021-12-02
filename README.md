@@ -14,7 +14,8 @@
 Polygon Manager only uses a number of open source projects to work properly:
 
 - [Numpy] 
-- [OpenCV] 
+- [OpenCV]
+- [Shapely] 
 
 And of course Polygon Manager itself is open source with a [https://github.com/memona008/Polygon_Manager][poly]
  on GitHub.
@@ -24,7 +25,7 @@ And of course Polygon Manager itself is open source with a [https://github.com/m
 Install the package with entering this command in command line interface
 
 ```
-pip install polygon_manager 
+pip3 install polygon_manager==0.1.2
 ```
 
 ## Usage
@@ -57,6 +58,20 @@ pm.view_polygons('10')
 ![Drawn_Polygon](https://user-images.githubusercontent.com/43179211/143847634-a0055a49-48fd-491b-bc69-27882ecc726d.PNG)
 
 
+#### To delete an existing polygon 
+```
+pm.delete_polygon('10')
+```
+
+It will return True or False based on deletion of polygon. And will throw exception if the polygon doesn't exist
+
+
+#### To check if a point lies in polygon or not 
+```
+pm.is_point_in_polygon(point=(1,2),polygon_name='10')
+```
+
+It will return True or False based on point position in polygon. And will throw exception if the polygon doesn't exist
 
 
 #### To get polygon points to use it anywhere else 
