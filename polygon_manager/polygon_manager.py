@@ -220,6 +220,7 @@ class PolygonManager:
                 polygon2_shape = Polygon(box_poly)
                 polygon_intersection = polygon2_shape.intersection(polygon1_shape).area
                 IOU = polygon_intersection / polygon2_shape.area
+                IOU = round(IOU,3)
                 IOU_list.append(IOU)
             return IOU_list
         else:
