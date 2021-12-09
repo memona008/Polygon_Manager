@@ -9,6 +9,8 @@ class PolygonManager:
     '''
     class to manage the points for a polygon
     '''
+    BOX_MODE_XYXY  = 'xyxy'
+    BOX_MODE_XYWH  = 'xywh'
     def __init__(self, windowname="Capture Polygon Points in clock or anti-clock wise", polygons_file_name="polygons_config.pkl"):
         self.windowname = windowname
         self.points = []
@@ -201,7 +203,7 @@ class PolygonManager:
             xywhs.append([x, y, w, h])
         return xywhs
 
-    def box_to_poly_iou(self, bbox_list, polygon_name=None, mode='xywh'):
+    def box_to_poly_iou(self, bbox_list, polygon_name=None, mode=BOX_MODE_XYWH):
         if polygon_name is None:
             raise Exception("Polygon name required")
         polygons_dict = load_pickle(self.polygons_file_name)
