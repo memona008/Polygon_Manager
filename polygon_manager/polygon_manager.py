@@ -164,7 +164,64 @@ class PolygonManager:
         else:
             raise Exception(f"No polygon with name {polygon_name} exists in file")
 
+    def xywh2poly(self, xywhs):
+        boxes  = xywhs
+        all = []
+        for x in boxes:
+            all.append(
+                [[x[0] - x[2] / 2, x[1] - x[3] / 2], [x[0] + x[2] / 2, x[1] - x[3] / 2],
+                 [x[0] + x[2] / 2, x[1] + x[3] / 2],
+                 [x[0] - x[2] / 2, x[1] + x[3] / 2]])
+        return all
 
+
+    def xyxy2poly(self, xyxys):
+        boxes = self.__xyxy2xywh(xyxys)
+        return self.xywh2poly(boxes)
+
+    def __xywh2xyxy(self, xywhs):
+        xyxys = []
+        for box in xywhs:
+            x1, y1 = box[0] - box[2] / 2, box[1] - box[3] / 2
+            x2, y2 = box[0] + box[2] / 2, box[1] + box[3] / 2
+            xyxys.append([x1, y1, x2, y2])
+        return xyxys
+
+    def __xyxy2xywh(self, xyxys):
+        xywhs = []
+        for box in xyxys:
+            xmin = box[0]
+            ymin = box[1]
+            xmax = box[2]
+            ymax = box[3]
+            x = (xmin + xmax) / 2.0
+            y = (ymin + ymax) / 2.0
+            w = xmax - xmin
+            h = ymax - ymin
+            xywhs.append([x, y, w, h])
+        return xywhs
+
+    def box_to_poly_iou(self, bbox_list, polygon_name=None, mode='xywh'):
+        if polygon_name is None:
+            raise Exception("Polygon name required")
+        polygons_dict = load_pickle(self.polygons_file_name)
+        IOU_list = []
+        if mode == 'xywh':
+            bbox_list = self.xywh2poly(bbox_list)
+        else:
+            bbox_list = self.xyxy2poly(bbox_list)
+        if polygon_name in polygons_dict.keys():
+            poly1 = polygons_dict[polygon_name]['polygon']
+            polygon1_shape = Polygon(poly1)
+            for j in range(0, len(bbox_list)):
+                box_poly = bbox_list[j]
+                polygon2_shape = Polygon(box_poly)
+                polygon_intersection = polygon2_shape.intersection(polygon1_shape).area
+                IOU = polygon_intersection / polygon2_shape.area
+                IOU_list.append(IOU)
+            return IOU_list
+        else:
+            raise Exception(f"No polygon with name {polygon_name} exists in file")
 
 
 
