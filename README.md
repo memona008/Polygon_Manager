@@ -80,5 +80,22 @@ pm.get_polygon_points('10')
 ```
 For example: [[32, 667], [279, 559], [551, 462], [766, 380], [972, 286], [1191, 204], [1407, 265], [1179, 412], [955, 531], [738, 664], [513, 817], [185, 1007]]
 
+#### To Calculate IOU/Intersection of boxes over POLYGON
+***Different formats of boxes can be used
+Supported formats: XYXY, XYWH***
+```
+pm.box_to_poly_iou(bbox_list=[[515, 149, 621, 286],[654, 159, 721, 186]], '13', mode=pm.BOX_MODE_XYXY)
+pm.box_to_poly_iou(bbox_list=[[568.0000, 217.5000, 106.0000, 137.0000]], '13', mode=pm.BOX_MODE_XYWH)
+```
+For example: [0.08, 0.44]
+             [0.78]
+
+
+
+
    [poly]: <https://github.com/memona008/Polygon_Manager>
 
+
+
+## License
+MIT
