@@ -227,7 +227,17 @@ class PolygonManager:
             raise Exception(f"No polygon with name {polygon_name} exists in file")
 
 
-
+    def rename_polygon(self, polygon_name):
+        """
+            This function used to rename the camera name assigned as a key for the polygon points.
+        """
+        polygons_dict = load_pickle(self.polygons_file_name)
+        if polygon_name in polygons_dict.keys():
+            new_key = input("Enter new camera name : ")
+            polygons_dict[new_key] = polygons_dict.pop(polygon_name)
+            save_pickle(self.polygons_file_name, polygons_dict)
+        else:
+            raise Exception(f"No polygon with name {polygon_name} exists in file")
 
 
 
