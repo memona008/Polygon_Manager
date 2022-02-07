@@ -86,29 +86,29 @@ class PolygonManager:
         cv2.destroyAllWindows()
         return self.points, k
 
-    def __get_drawn_polygon(self, pic, pts, color=(0, 255, 0)):
-        if type(pts) is dict:
-            pts_arr = pts.values()
+    def get_drawn_polygon(self, image, polygon_points, color=(0, 255, 0)):
+        if type(polygon_points) is dict:
+            pts_arr = polygon_points.values()
         else:
-            pts_arr = [pts]
+            pts_arr = [polygon_points]
 
-        image = pic
+        drawn_image = image
         for pts in pts_arr:
             pts = np.array(pts, np.int32)
             pts = pts.reshape((-1, 1, 2))
             is_closed = True
             thickness = 2
-            image = cv2.polylines(pic, [pts],
+            drawn_image = cv2.polylines(image, [pts],
                                   is_closed, color,
                                   thickness)
 
-        return image
+        return drawn_image
 
     def __save_polygon(self, key, link, image, polygon):
         self.polygons_dict[key] = {
             'polygon':polygon,
             'image': image,
-            'vid_link': link
+            'link': link
         }
         with open(self.polygons_file_name, 'wb') as handle:
             pickle.dump(self.polygons_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
@@ -137,17 +137,17 @@ class PolygonManager:
         polygons_dict = load_pickle(self.polygons_file_name)
         if camera_no in polygons_dict.keys():
             image = polygons_dict[f'{camera_no}']['image']
-            link = polygons_dict[f'{camera_no}']['vid_link']
+            link = polygons_dict[f'{camera_no}']['link']
             pts  = polygons_dict[f'{camera_no}']['polygon']
-            image = self.__get_drawn_polygon(image,pts,(0,0,255))
+            image = self.get_drawn_polygon(image,pts,(0,0,255))
             cv2.imshow(f"{camera_no}", image)
             cv2.waitKey(0)
         elif not camera_no:
             for camera_no in polygons_dict.keys():
                 image = polygons_dict[camera_no]['image']
-                link = polygons_dict[camera_no]['vid_link']
+                link = polygons_dict[camera_no]['link']
                 pts = polygons_dict[camera_no]['polygon']
-                image = self.__get_drawn_polygon(image, pts, (0, 0, 255))
+                image = self.get_drawn_polygon(image, pts, (0, 0, 255))
                 cv2.imshow(f"{camera_no}", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
