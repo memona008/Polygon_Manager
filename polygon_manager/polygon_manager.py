@@ -114,13 +114,20 @@ class PolygonManager:
             pickle.dump(self.polygons_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-    def get_polygon_points(self, camera_no, normalized=False):
+    def get_polygon_points(self, camera_no, normalized=False, resize=None):
+        """
+        `normalized` and `resize` are mutually exclusive
+        """
+        if resize is not None and normalized is True:
+            raise ValueError("`normalized` and `resize` are mutually exclusive.")
         polygons_dict = load_pickle(self.polygons_file_name)
         if camera_no in polygons_dict.keys():
             pts = polygons_dict[f'{camera_no}']['polygon']
-            if normalized:
+            if normalized or resize is not None:
                 img = polygons_dict[f'{camera_no}']['image']
                 pts = (np.array(pts)/np.array([img.shape[1],img.shape[0]])).tolist()
+            if resize is not None:
+                pts = (np.array(pts)*np.array(resize)).astype(np.uint32).tolist()
             return pts
 
         raise Exception(f"No polygon is present for camera {camera_no}")
