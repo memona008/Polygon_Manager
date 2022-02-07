@@ -69,7 +69,7 @@ class PolygonManager:
                     cv2.putText(drawn_frame, str(x) + ',' +
                                 str(y), (x, y), font,
                                 1, (255, 0, 0), 2)
-                    drawn_frame = cv2.line(drawn_frame, self.points[i-1], self.points[i],color=(255, 0, 0),thickness=2)
+                    drawn_frame = cv2.line(drawn_frame, tuple(self.points[i-1]), tuple(self.points[i]),color=(255, 0, 0),thickness=2)
 
             cv2.imshow(self.windowname, drawn_frame)
 
@@ -114,10 +114,13 @@ class PolygonManager:
             pickle.dump(self.polygons_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-    def get_polygon_points(self, camera_no):
+    def get_polygon_points(self, camera_no, normalized=False):
         polygons_dict = load_pickle(self.polygons_file_name)
         if camera_no in polygons_dict.keys():
             pts = polygons_dict[f'{camera_no}']['polygon']
+            if normalized:
+                img = polygons_dict[f'{camera_no}']['image']
+                pts = (np.array(pts)/np.array([img.shape[1],img.shape[0]])).tolist()
             return pts
 
         raise Exception(f"No polygon is present for camera {camera_no}")
